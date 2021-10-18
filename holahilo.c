@@ -5,15 +5,15 @@
 #define NUM_TRHREADS 100
 int saldo;
 
+pthread_mutex_t lockSaldo = PTHREAD_MUTEX_INITIALIZER;
+
 void *printHola(void *arg){
-    //printf("hola desde un hilo\n");
-    /*while(1) {
-        printf("Trabajando\n");
-        sleep(1);
-    }*/
     int saldolocal = saldo;
+    pthread_mutex_lock(&lockSaldo);
+    saldolocal = saldo;
     saldolocal += 100;
     saldo = saldolocal;
+    pthread_mutex_unlock(&lockSaldo);
     pthread_exit(NULL);
 }
 
